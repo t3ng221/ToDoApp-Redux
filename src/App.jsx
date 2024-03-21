@@ -7,9 +7,10 @@ import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, removeAllToDo, removeToDo } from "./features/todo/todoSlice";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+
+import Checkbox from "@mui/material/Checkbox";
 import { Alert, Button, Container, FormControl, Grid } from "@mui/material";
+import { ForkRight } from "@mui/icons-material";
 
 function App() {
   const todos = useSelector((state) => state.todos);
@@ -23,7 +24,6 @@ function App() {
     // action only receive one parameter, which is payload
     dispatch(addTodo(text));
     setText(null);
-    console.log("hello");
   };
 
   return (
@@ -53,20 +53,20 @@ function App() {
 
         <Container container>
           <ul>
+            <h1>Incomplete Task</h1>
             {todos.length !== 0 ? (
               todos.map((e) => (
                 <li key={e.id}>
                   <Alert variant="outlined" severity="info">
-                    <h2 className="mt-10">
+                    <h2>
                       {e.text}{" "}
-                      <IconButton
-                        aria-label="delete"
-                        size="large"
+                      <Checkbox
+                        defaultChecked
+                        color="secondary"
+                        placement="right-end"
                         onClick={() => dispatch(removeToDo({ id: e.id }))}
                         variant="contained"
-                      >
-                        <DeleteIcon fontSize="inherit" />
-                      </IconButton>
+                      />
                     </h2>
                   </Alert>
                 </li>
@@ -82,7 +82,7 @@ function App() {
             onClick={() => dispatch(removeAllToDo())}
             variant="contained"
           >
-            Delete All
+            Mark All Completed
           </Button>
         </Container>
       </Grid>
